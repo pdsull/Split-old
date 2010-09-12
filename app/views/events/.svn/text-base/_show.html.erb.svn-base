@@ -1,0 +1,14 @@
+<div id="ss_show">
+	<div id="show_inner">
+		<div id="sidebar_item">
+			<h1>Event Details</h1>
+			<p class="sidebar">Title: <%= @event.title %></p>
+			<p class="sidebar">Notes: <%= @event.description %></p>
+			<p class="sidebar">Start: <%= @event.starttime.strftime("%B %d, %I:%M %p") %></p>
+			<p class="sidebar">End: <%= @event.endtime.strftime("%B %d, %I:%M %p") %></p>
+			<% if current_user.events.include?(@event) %>
+				<%= link_to_remote "Edit", :url => { :action => :edit, :id => @event } %>
+			<% end %>
+		</div>
+	</div>
+</div>

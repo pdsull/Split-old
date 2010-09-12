@@ -1,0 +1,92 @@
+body{
+	font-family: Verdana, Helvetica, Arial;
+	font-size: 14px;
+	margin: 0;
+	padding: 0;
+}
+
+#loading{
+  position: absolute; 
+  right: 0px; 
+  top: 0px; 
+  background-color: #dd0000; 
+  font-weight:bold;
+  color: white; 
+  margin: 5px; 
+  padding: 3px;
+}
+
+span > div#loading {
+  position: fixed;
+}
+
+h1{
+font-size: 16px;
+}
+
+div.aplicationContent {
+	width: 1150px;
+	margin: 10px;
+}
+
+div.appRightContent {
+	width: 800px;
+	float: right;
+}
+
+div.appLeftContent {
+	float: left;
+	width: 330px;
+	clear: both;
+	font-size: 12px;
+}
+
+#flash_notice, #flash_error {
+  padding: 5px 8px;
+  margin: 10px 0;
+}
+
+#flash_notice {
+  background-color: #CFC;
+  border: solid 1px #6C6;
+}
+
+#flash_error {
+  background-color: #FCC;
+  border: solid 1px #C66;
+}
+
+#nav {
+	background-color: #4B7399;
+	padding: 20px;
+	border-bottom: 1px solid #333;
+}
+
+#nav a {
+	color: #fff;
+	font-weight: bold;
+	text-decoration: none;
+	padding-right: 30px;
+}
+
+span.logo {
+	color: #fff;
+	font-weight: bold;
+	float: right;
+}
+
+p.sidebar {
+	margin-left: 10px;
+}
+
+#sidebar-item {
+	margin-bottom: 40px;
+}
+
+#ss_show {
+	margin-bottom: 40px;
+}
+
+#show_inner {
+	border: 1px solid #999;
+}

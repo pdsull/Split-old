@@ -1,0 +1,13 @@
+class TestController < ApplicationController
+  
+  layout 'nifty'
+  
+  def index
+    @events = Event.find(:all)
+  end
+  
+  def show
+    @event = Event.find(params[:id])
+  end
+  
+end

@@ -1,0 +1,16 @@
+<% title "Reset" %>
+
+<% form_for @new_user, :url => { :controller => :home, :action => :reset_pw } do |f| %>
+
+<p><%= f.label :password %><br />
+<%= f.password_field :password %></p>
+
+<p><%= f.label :password_confirmation %><br />
+<%= f.password_field :password_confirmation %></p>
+
+<%= f.hidden_field :username, :value => @new_user.username %>
+<%= f.hidden_field :id, :value => @new_user.id %>
+
+<p><%= f.submit "Submit New Password" %></p>
+
+<% end -%>

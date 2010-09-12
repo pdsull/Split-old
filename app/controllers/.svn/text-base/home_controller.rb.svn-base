@@ -1,0 +1,60 @@
+class HomeController < ApplicationController
+  
+  before_filter :require_user
+  layout 'nifty'
+  
+  def index
+    @conflict_events = Event.find(:all,
+                                  :conditions => ["starttime >= ? AND family_id = ?", Time.now, current_user.family.id],
+                                  :order => "starttime DESC")
+  end
+  
+  def new_event
+    @user = current_user
+    @event = Event.new(:starttime => 1.hour.from_now, :endtime => 2.hour.from_now, :period => "Does not repeat")
+  end
+  
+  def create
+    if params[:event][:period] == "Does not repeat"
+      @event = Event.new(params[:event])
+    else
+      @event_series = EventSeries.new(params[:event])
+    end
+    
+    if @event.save
+      flash[:notice] = "Successfully scheduled event"
+      redirect_to root_url
+    else
+      flash[:error] = "The event failed to save"
+      redirect_to root_url
+    end
+  end
+  
+  def show
+    @event = Event.find(params[:id])
+    @user = current_user
+  end
+  
+  def edit
+    @event = Event.find(params[:id])
+    @user = current_user
+  end
+  
+  def update
+    @event = Event.find(params[:id])
+    if @event.update_attributes(params[:event])
+      flash[:notice] = "Successfully updated event."
+      redirect_to root_url
+    else
+      render :action => 'edit'
+    end
+  end
+  
+  def destroy
+    @event = Event.find(params[:id])
+    @event.destroy
+    flash[:notice] = "Successfully deleted event."
+    redirect_to root_url
+  end
+
+end

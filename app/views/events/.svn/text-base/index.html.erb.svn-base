@@ -1,0 +1,116 @@
+<% title "Split/Schedule" -%>
+
+<div class="appLeftContent">
+	<div id="ss_hide">
+		<%- flash.each do |name, msg| -%>
+			<%= content_tag :div, msg, :id => "flash_#{name}" %>
+		<%- end -%>
+		<div id="sidebar-item">
+			<h1>Recently Added Events</h1>
+			<% if @recent_events.count == 0 %>
+				<p class="sidebar">It looks like you haven't added any events yet.<br />
+				<%= link_to "Click here", addevent_url %> to get started.</p>
+			<% else %>
+				<% @recent_events.each do |recent| -%>
+					<p class="sidebar"><%= link_to recent.title, { :controller => :home, :action => :show, :id => recent.id }  %> on <%= recent.starttime.strftime("%m/%d/%y") %></p>
+				<% end -%>
+			<% end -%>
+		</div>
+
+		<% if @conflicts -%>
+			<div id="sidebar-item">
+				<h1>Upcoming Conflicts</h1>
+				<% @conflicts.reverse.each do |con| %>
+					<p class="sidebar"><%= con %></p>
+				<% end -%>
+			</div>
+		<% end -%>
+
+		<div id="sidebar-item">
+			<h1>Members</h1>
+			<% current_user.family.members.each do |m| -%>
+				<p class="sidebar"><%= m.name %></p>
+			<% end -%>
+			<p class="sidebar"><%= link_to "Manage Family Members", members_url %></p>
+		</div>
+	</div>
+	
+	<div id="ss_show">
+	</div>
+	
+	<div id="ss_edit">
+	</div>
+	
+</div>
+
+<div class="appRightContent">
+<script>
+  
+  
+  $(document).ready(function(){
+      // page is now ready, initialize the calendar...
+      $('#calendar').fullCalendar({
+          editable: true,
+          header: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'month,agendaWeek,agendaDay'
+          },
+          defaultView: 'agendaWeek',
+          height: 680,
+          slotMinutes: 30,
+          loading: function(bool){
+              if (bool) 
+                  $('#loading').show();
+              else 
+                  $('#loading').hide();
+          },
+          events: "/events/get_events",
+          timeFormat: 'h:mm t{ - h:mm t} ',
+          dragOpacity: "0.5",
+          eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc){
+//              if (confirm("Are you sure about this change?")) {
+                  moveEvent(event, dayDelta, minuteDelta, allDay);
+//              }
+//              else {
+//                  revertFunc();
+//              }
+          },
+          
+          eventResize: function(event, dayDelta, minuteDelta, revertFunc){
+//              if (confirm("Are you sure about this change?")) {
+                  resizeEvent(event, dayDelta, minuteDelta);
+//              }
+//              else {
+//                  revertFunc();
+//              }
+          },
+          
+          eventClick: function(event, jsEvent, view){
+              showEventDetails(event);
+          },
+      
+      
+      
+      
+      });
+  });
+</script>
+	<div>
+		<div id='calendar'>
+		</div>
+	</div>
+	<div id = "desc_dialog" style ="display:none;">
+		<div id = "event_desc">
+		</div>
+		<br/><br/>
+		<div id = "event_actions">
+			<span id = "edit_event"></span>
+			<span id = "delete_event"></span>
+		</div>
+	</div>
+	<div id = "create_event_dialog" style ="display:none;">
+		<div id = "create_event">
+		</div>
+	</div>
+</div>

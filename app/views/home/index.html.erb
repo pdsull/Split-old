@@ -1,0 +1,21 @@
+<% title "Home" %>
+
+<p>Username: <%= current_user.username %></p>
+
+<p>Family name: <%= current_user.family.name %></p>
+
+<p>Family Members:
+	<% current_user.family.members.each do |m| -%>
+		<%= m.name %>, 
+	<% end -%>
+</p>
+
+<p>Timezone: <%= current_user.time_zone %></p>
+
+<p>Events:
+	<ul>
+		<% current_user.events.each do |event| %>
+			<li><%= link_to event.title, :controller => :home, :action => :show, :id => event.id %></li>
+		<% end %>
+	</ul>
+</p>

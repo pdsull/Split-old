@@ -1,0 +1,12 @@
+<% title "Test" %>
+
+<ul>
+<% @events.each do |e| -%>
+	<li>
+		<%= link_to_remote e.title, :url => { :action => :show, :id => e } %>
+	</li>
+<% end-%>
+</ul>
+
+<div id="ss_show">
+</div>

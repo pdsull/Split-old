@@ -1,0 +1,26 @@
+<% title "Family" %>
+
+<p>
+	<strong>Name:</strong>
+	<%=h @family.name %>
+</p>
+<p>
+	<strong>ID:</strong>
+	<%=h @family.id %>
+</p>
+<p>
+	<strong>Users:</strong>
+	<% @family.users.each do |u| %>
+		<%=h u.username %><br />
+	<% end %>
+</p>
+<p>
+	<strong>Members:</strong><br />
+	<% @family.members.each do |m| %>
+		<%=h m.name %><br />
+	<% end -%>
+</p>
+<p>
+  <%= link_to "Edit", edit_family_path(@family) %> |
+  <%= link_to "View All", families_path %>
+</p>

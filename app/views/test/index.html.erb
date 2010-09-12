@@ -1,0 +1,7 @@
+<% title "Test" %>
+
+<% @someone = User.find(2)  %>
+
+Perishable Token: <%= @someone.perishable_token %>
+
+<%= link_to "See user", :action => :show, :id => @someone.perishable_token %>

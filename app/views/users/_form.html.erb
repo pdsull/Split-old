@@ -1,0 +1,38 @@
+<% form_for @user do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :username %><br />
+    <%= f.text_field :username %>
+  </p>
+  <p>
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </p>
+  <p>
+    <%= f.label :password %><br />
+    <%= f.password_field :password %>
+  </p>
+  <p>
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation %>
+  </p>
+  <p>
+    <%= f.label :time_zone %><br />
+    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, :default => "Mountain Time (US & Canada)" %>
+  </p>
+
+	<!-- Additional fields for registration, but not edit -->
+	
+	<% unless params[:action] == "edit" %>
+	<p>
+		<%= f.label :second_user_name %><br />
+		<%= text_field "user", :second_user_name %>
+	</p>
+	<p>
+		<%= f.label :second_user_email %><br />
+		<%= text_field "user", :second_user_email %>
+	</p>
+	<% end -%>
+	
+  <p><%= f.submit %></p>
+<% end %>

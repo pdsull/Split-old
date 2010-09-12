@@ -1,0 +1,49 @@
+<% title "Edit Events" %>
+
+<% form_for @event, :url => {:controller => :home, :action => :update} do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :starttime, "Start Time" %><br />
+    <%= f.datetime_select :starttime, :discard_year => true, :minute_step => 15 %>
+  </p>
+  <p>
+    <%= f.label :endtime, "End Time" %><br />
+    <%= f.datetime_select :endtime, :discard_year => true, :minute_step => 15, :default => Time.now + 1.hour %>
+  </p>
+  <p>
+    <%=f.check_box :all_day %> <%= f.label :all_day %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%=f.label :period, "Repeats" %>
+    <%=f.select :period, Event::REPEATS,{}, :onchange => "showPeriodAndFrequency(this.value);" %>
+  </p>
+  <p id = "frequency" style = "display:none;">
+    <%=f.label :frequency, "Repeat every" %>
+    <%=f.select :frequency, (1..30).to_a %> <span id = "period"></span>
+  </p>
+	<p>
+		<%= f.label :members, "Attending" %><br />
+		<% current_user.family.members.each do |m| %>
+			<%= check_box_tag "event[member_ids][]", m.id, @event.members.include?(m) %>
+			<%= m.name %><br />
+		<% end -%>
+	</p>
+
+  <%=f.hidden_field :id, :value => @event.id %>
+  <%=f.hidden_field :user_id, :value => @user.id %>
+
+  <p><%= f.submit "Schedule Event" %></p>
+<% end %>
+
+
+<p>
+	
+</p>

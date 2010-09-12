@@ -1,0 +1,37 @@
+<% title "Events" %>
+
+<p>
+  <strong>Name:</strong>
+  <%=h @event.title %>
+</p>
+<p>
+  <strong>Start Time:</strong>
+  <%=h @event.starttime.strftime("%B %d, %I:%M %p") %>
+</p>
+<p>
+  <strong>End Time:</strong>
+  <%=h @event.endtime.strftime("%B %d, %I:%M %p") %>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%=h @event.description %>
+</p>
+<p>
+	<strong>Owner:</strong>
+	<%=h @event.user.username %>
+</p>
+<p>
+	<strong>className:</strong>
+	<%=h @event.className %>
+<p>
+	<strong>Attending:</strong>
+	<% @event.members.each do |m| -%>
+		<%=h m.name %>, 
+	<% end -%>
+</p>
+
+<p>
+  <%= link_to "Edit", { :controller => :home, :action => :edit } %>
+</p>
+
+

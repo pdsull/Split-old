@@ -1,0 +1,6 @@
+<div id="ss_show">
+	<p class="sidebar">Title: <%= @event.title %></p>
+	<p class="sidebar">Start: <%= @event.starttime %></p>
+	<p class="sidebar">End: <%= @event.endtime %></p>
+</div>
+	

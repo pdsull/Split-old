@@ -1,0 +1,16 @@
+<% title "Families" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for family in @families %>
+    <tr>
+      <td><%=h family.name %></td>
+      <td><%= link_to "Show", family %></td>
+      <td><%= link_to "Edit", edit_family_path(family) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Family", new_family_path %></p>

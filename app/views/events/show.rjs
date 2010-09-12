@@ -1,0 +1,3 @@
+page.replace_html("#ss_show", :partial => "show", :object => @event)
+page[:ss_hide].hide
+page[:ss_show].show

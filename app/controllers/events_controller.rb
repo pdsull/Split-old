@@ -1,0 +1,117 @@
+class EventsController < ApplicationController
+  
+  before_filter :require_user
+  
+  def new
+    @event = Event.new(:endtime => 1.hour.from_now, :period => "Does not repeat")
+  end
+  
+  def create
+    if params[:event][:period] == "Does not repeat"
+      @event = Event.new(params[:event])
+    else
+      @event_series = EventSeries.new(params[:event])
+    end
+  end
+  
+  def index
+    @recent_events = Event.find(:all,
+                                :limit => 5,
+                                :order => "created_at DESC",
+                                :conditions => ["family_id = ?", current_user.family.id])
+                                
+    @conflict_events = Event.find(:all,
+                                  :conditions => ["starttime >= ? AND family_id = ? AND all_day = 'f'", Time.now, current_user.family.id],
+                                  :order => "starttime ASC")
+    
+    @conflict_events.each do |event|
+      if @estore
+        if event.starttime < @estore.endtime
+          @conflicts = Array.new unless @conflicts
+          @conflicts.push(@estore.starttime.strftime("%m/%d/%y")+ " " + @estore.title + " and " + event.title)
+        end
+      end
+      @estore = event
+    end
+  end
+  
+  
+  def get_events
+    @events = current_user.family.events.find(:all, :conditions => ["starttime >= '#{Time.at(params['start'].to_i).to_formatted_s(:db)}' and endtime <= '#{Time.at(params['end'].to_i).to_formatted_s(:db)}'"] )
+    
+    events = [] 
+    @events.each do |event|
+      events << {:id => event.id, :title => event.title, :className => event.className, :description => event.description || "Some cool description here...", :start => "#{event.starttime.iso8601}", :end => "#{event.endtime.iso8601}", :allDay => event.all_day, :recurring => (event.event_series_id)? true: false}
+    end
+    render :text => events.to_json
+  end
+  
+  
+  
+  def move
+    @event = Event.find_by_id params[:id]
+    if current_user.events.include?(@event)
+      @event.starttime = (params[:minute_delta].to_i).minutes.from_now((params[:day_delta].to_i).days.from_now(@event.starttime))
+      @event.endtime = (params[:minute_delta].to_i).minutes.from_now((params[:day_delta].to_i).days.from_now(@event.endtime))
+      @event.all_day = params[:all_day]
+      @event.save
+    end
+    
+    render :update do |page|
+      page<<"$('#calendar').fullCalendar('refetchEvents')"
+    end
+  end
+  
+  
+  def resize
+    @event = Event.find_by_id params[:id]
+    if current_user.events.include?(@event)
+      @event.endtime = (params[:minute_delta].to_i).minutes.from_now((params[:day_delta].to_i).days.from_now(@event.endtime))
+      @event.save
+    end
+    
+    render :update do |page|
+      page<<"$('#calendar').fullCalendar('refetchEvents')"
+    end
+  end
+  
+  def edit
+    @event = Event.find_by_id(params[:id])
+  end
+  
+  def update
+    @event = Event.find_by_id(params[:event][:id])
+    @event.attributes = params[:event]
+    @event.save
+
+    render :update do |page|
+      page<<"$('#calendar').fullCalendar( 'refetchEvents' )"
+      page<<"$('#ss_show').hide()"
+      page<<"$('#ss_hide').show()"
+    end
+    
+  end  
+  
+  def destroy
+    @event = Event.find_by_id(params[:id])
+    if params[:delete_all] == 'true'
+      @event.event_series.destroy
+    elsif params[:delete_all] == 'future'
+      @events = @event.event_series.events.find(:all, :conditions => ["starttime > '#{@event.starttime.to_formatted_s(:db)}' "])
+      @event.event_series.events.delete(@events)
+    else
+      @event.destroy
+    end
+    
+    render :update do |page|
+      page<<"$('#calendar').fullCalendar( 'refetchEvents' )"
+      page<<"$('#desc_dialog').dialog('destroy')" 
+    end
+    
+  end
+  
+  def show
+    @event = Event.find(params[:id])
+  end
+  
+end
