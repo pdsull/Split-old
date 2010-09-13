@@ -1,126 +1,0 @@
-10
-
-dir
-0
-file:///Users/paul/projects/svn/Cal
-file:///Users/paul/projects/svn/Cal
-
-
-
-2010-09-05T04:32:17.518676Z
-0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2fec3693-a703-418a-b625-b71e1e0f7470
-
-test
-dir
-
-app
-dir
-
-tmp
-dir
-
-log
-dir
-
-Rakefile
-file
-1
-
-
-
-2010-04-08T05:43:44.000000Z
-17f2f134da4cd31ea095d5868ca89e86
-2010-09-05T04:33:19.922266Z
-1
-paul
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-307
-
-script
-dir
-
-config
-dir
-
-db
-dir
-
-doc
-dir
-
-README
-file
-1
-
-
-
-2010-04-08T05:43:44.000000Z
-a58e68a7599c976f071d5b9c6fa67fb3
-2010-09-05T04:33:19.922266Z
-1
-paul
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-10011
-
-vendor
-dir
-
-public
-dir
-
